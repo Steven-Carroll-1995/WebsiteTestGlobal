@@ -41,46 +41,6 @@ namespace WebsiteTestGlobal
 
         }
 
-        [Test]
-
-        public void verifyLogo()
-
-        {
-
-            driver.Navigate().GoToUrl("https://www.browserstack.com/");
-
-            Assert.IsTrue(driver.FindElement(By.Id("logo")).Displayed);
-
-        }
-
-        [Test]
-
-        public void verifyMenuItemcount()
-
-        {
-
-            ReadOnlyCollection<IWebElement> menuItem = driver.FindElements(By.XPath("//ul[contains(@class,'horizontal-list product-menu')]/li"));
-
-            Assert.AreEqual(4, menuItem.Count);
-
-        }
-
-        [Test]
-
-        public void verifyPricingPage()
-
-        {
-
-            driver.Navigate().GoToUrl("https://browserstack.com/pricing");
-
-            IWebElement contactUsPageHeader = driver.FindElement(By.TagName("h1"));
-
-            Assert.IsTrue(contactUsPageHeader.Text.Contains("Replace your device lab and VMs with any of these plans"));
-
-        }
-
-
-
 
         [OneTimeTearDown]
 
