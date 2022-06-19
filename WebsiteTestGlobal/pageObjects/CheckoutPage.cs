@@ -1,26 +1,15 @@
-﻿using System;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Remote;
-using NUnit.Framework;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenQA.Selenium.Support.UI;
+﻿using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
-using SeleniumExtras.WaitHelpers;
 
 namespace WebsiteTestGlobal.pageObjects
 {
     class CheckoutPage
     {
         private IWebDriver driver;
-        private WebDriverWait wait;
 
         public CheckoutPage(IWebDriver driver)
         {
             this.driver = driver;
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             PageFactory.InitElements(driver, this);
         }
 
@@ -34,18 +23,23 @@ namespace WebsiteTestGlobal.pageObjects
 
         #region methods
 
+        //Deletes an item from the cart based on index provided.
         public void deleteItemFromCart(int locationInCart)
         {
             driver.FindElement(By.XPath($"(//*[@class='cart_quantity_delete'])[{locationInCart}]")).Click();
+            //Sleep is needed here as following procedures were occurring incorrectly as it takes a moment for the item to be removed from the cart.
             Thread.Sleep(3000);
         }
 
+        //Increases the quantity of an item in the cart based on the index provided.
         public void increaseQuantityOfItemInCart(int locationInCart)
         {
             driver.FindElement(By.XPath($"(//*[@class='cart_quantity_up btn btn-default button-plus'])[{locationInCart}]")).Click();
+            //Sleep is needed here as when getting the item total, the update had not finished completing yet.
             Thread.Sleep(3000);
         }
 
+        //Gets the total price of an item from the cart based on the index provided.
         public string getItemTotal(int locationInCart)
         {
             var total = driver.FindElement(By.XPath($"(//*[@class='price'])[{locationInCart}]")).GetAttribute("textContent").Trim();
@@ -53,6 +47,7 @@ namespace WebsiteTestGlobal.pageObjects
             return total;
         }
 
+        // Gets the total cost of all items in the cart.
         public string getCartTotal()
         {
             return totalPrice.GetAttribute("textContent");
