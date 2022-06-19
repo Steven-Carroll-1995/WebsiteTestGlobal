@@ -1,12 +1,4 @@
-﻿using System;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Remote;
-using NUnit.Framework;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenQA.Selenium.Support.UI;
+﻿using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
 
 namespace WebsiteTestGlobal.pageObjects
@@ -15,17 +7,16 @@ namespace WebsiteTestGlobal.pageObjects
     {
 
         private IWebDriver driver;
-        private WebDriverWait wait;
 
         public SearchResults(IWebDriver driver)
         {
             this.driver = driver;
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             PageFactory.InitElements(driver, this);
         }
 
         #region selectors
 
+        //Header Logo on the top left of the page.
         [FindsBy(How = How.CssSelector, Using = "img[alt = 'My Store']")]
         [CacheLookup]
         private IWebElement headerLogo;
@@ -33,6 +24,7 @@ namespace WebsiteTestGlobal.pageObjects
         #endregion selectors
 
         #region methods
+        //Selects the item from the search results page based on the index provided.
         public ItemPage clickItemInSearchResults(int itemIndex)
         {
             driver.FindElement(By.CssSelector($"#center_column ul.product_list.grid.row li:nth-of-type({itemIndex}) div.product-container div:nth-of-type(2) h5 a.product-name")).Click();

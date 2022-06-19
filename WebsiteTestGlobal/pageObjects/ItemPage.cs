@@ -1,11 +1,4 @@
-﻿using System;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Remote;
-using NUnit.Framework;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
 using SeleniumExtras.WaitHelpers;
@@ -26,30 +19,45 @@ namespace WebsiteTestGlobal.pageObjects
 
         #region selectors
 
+        //Quantity of Item
         [FindsBy(How = How.Id, Using = "quantity_wanted")]
         [CacheLookup]
         private IWebElement quantity;
 
+        /**
+         * Size of the item - Has three values:
+         * - S
+         * - M
+         * - L
+         */
         [FindsBy(How = How.Id, Using = "group_1")]
         [CacheLookup]
         private IWebElement size;
 
+        // Add to cart button
         [FindsBy(How = How.Name, Using = "Submit")]
         [CacheLookup]
         public IWebElement addToCart;
 
+        //Search bar at the top of the screen.
         [FindsBy(How = How.Id, Using = "search_query_top")]
         [CacheLookup]
         private IWebElement searchBar;
 
+        // Search button to kick off the search.
         [FindsBy(How = How.Name, Using = "submit_search")]
         [CacheLookup]
         private IWebElement searchButton;
 
+        /**
+         * This button appears in a pop-up after an item is added to the cart.
+         * Clicking it dismisses the pop-up and returns to the item page.
+         */
         [FindsBy(How = How.CssSelector, Using = "span[title='Continue shopping']")]
         [CacheLookup]
         private IWebElement continueShopping;
 
+        // Navigates to the checkout page when clicked.
         [FindsBy(How = How.CssSelector, Using = "a[title='View my shopping cart']")]
         [CacheLookup]
         private IWebElement checkout;
@@ -77,6 +85,7 @@ namespace WebsiteTestGlobal.pageObjects
         public void addItemToCart()
         {
             addToCart.Click();
+            //Wait is needed here as the element to be clicked appears in a pop-up which takes a few moments to be visible.
             wait.Until(ExpectedConditions.ElementToBeClickable(continueShopping));
             continueShopping.Click();
         }
